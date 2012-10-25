@@ -20,7 +20,7 @@ video.on 'data', (buf) ->
   ###
 
 ## Log navdata
-drone.on 'navdata', console.log
+#drone.on 'navdata', console.log
 
 ## Add keyboard controls
 controls.hook drone

@@ -42,10 +42,20 @@ module.exports =
         setTimeout (->
           client.front 0
         ), 250
+      else if s is "a"
+        client.left speed
+        setTimeout (->
+          client.left 0
+        ), 250
       else if s is "s"
         client.back speed
         setTimeout (->
           client.back 0
+        ), 250
+      else if s is "d"
+        client.right speed
+        setTimeout (->
+          client.right 0
         ), 250
       else if s is " "
         if flying is true
@@ -58,6 +68,17 @@ module.exports =
       else if s is "r"
         client.disableEmergency()
 
+      else if s is "1"
+        client.animate "flipAhead"
+      else if s is "2"
+        client.animate "flipLeft"
+      else if s is "3"
+        client.animate "yawShake"
+      else if s is "4"
+        client.animate "doublePhiThetaMixed"
+      else if s is "5"
+        client.animate "wave"
+
     console.log "Controls:"
     console.log "w - forward"
     console.log "s - backward"
@@ -68,3 +89,4 @@ module.exports =
     console.log "<space> - land/takeoff toggle"
     console.log "x - stop"
     console.log "r - disable emergency mode"
+    console.log "f - flipLeft"

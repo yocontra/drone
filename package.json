@@ -7,6 +7,7 @@
     "async":"*",
     "canvas":"*",
     "express":"*",
-    "pulsar":"*"
+    "pulsar":"*",
+    "camera":"*"
   }
 }
