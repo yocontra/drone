@@ -19,5 +19,8 @@ video.on 'data', (buf) ->
     lastPng = can.toBuffer()
   ###
 
+## Log navdata
+drone.on 'navdata', console.log
 
+## Add keyboard controls
 controls.hook drone
