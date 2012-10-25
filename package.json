@@ -1,0 +1,12 @@
+{
+  "name":"drone",
+  "version":"0.0.1",
+  "dependencies":{
+    "ar-drone":"*",
+    "opencv":"*",
+    "async":"*",
+    "canvas":"*",
+    "express":"*",
+    "pulsar":"*"
+  }
+}
