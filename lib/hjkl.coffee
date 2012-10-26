@@ -69,15 +69,15 @@ module.exports =
         client.disableEmergency()
 
       else if s is "1"
-        client.animate "flipAhead"
+        client.animate "flipAhead", 15
       else if s is "2"
-        client.animate "flipLeft"
+        client.animate "flipLeft", 15
       else if s is "3"
-        client.animate "yawShake"
+        client.animate "yawShake", 15
       else if s is "4"
-        client.animate "doublePhiThetaMixed"
+        client.animate "doublePhiThetaMixed", 15
       else if s is "5"
-        client.animate "wave"
+        client.animate "wave", 15
 
     console.log "Controls:"
     console.log "w - forward"
