@@ -1,18 +1,15 @@
 arDrone = require 'ar-drone'
 util = require './lib/util'
 server = require './lib/server'
-controls = require './lib/hjkl'
-PaVEParser = require './lib/PaVEParser'
+droner = require './lib/droner'
 
 drone = arDrone.createClient()
-drone.disableEmergency()
-
 
 ## Stream video
-
 srv = server.create 8080
-video = drone.createPngStream log: process.stderr
+video = drone.createPngStream()
 video.on 'error', console.log
+
 video.on 'data', (buf) ->
   srv.emit 'frame', buf.toString 'base64'
 
@@ -25,21 +22,13 @@ video.on 'data', (buf) ->
       srv.emit 'frame', buff.toString 'base64'
 ###
 
-## Record video
-###
-out = require('fs').createWriteStream './vid.h246', encoding: 'binary'
 
-parser = new PaVEParser
-video._tcpVideoStream.pipe(parser).pipe out
-###
+## Augment drone
+droner.augment drone
 
-## Log navdata
-logged = false
-drone.on 'navdata', (d) -> 
-  if d.droneState.lowBattery is 1 and !logged
+drone.enableControls()
+  # ffmpeg -i recording.h246 -vcodec copy recording.mp4
+  .record('./recording.h246')
+  .safeguard()
+  .once 'lowBattery', ->
     console.log 'LOW BATTERY'
-    logged = true
-  #srv.emit 'navdata', d
-
-## Add keyboard controls
-controls.hook drone
