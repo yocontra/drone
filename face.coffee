@@ -1,34 +1,35 @@
 arDrone = require 'ar-drone'
-util = require './lib/util'
 server = require './lib/server'
 droner = require './lib/droner'
+util = require './lib/util'
 
 drone = arDrone.createClient()
+
+## Augment drone
+droner.augment(drone)
+  .enableControls()
+  .record('./recording.h264') # ffmpeg -i recording.h264 -vcodec copy recording.mp4
+  .events()
+  .safeguard()
+  .enableFaceRecognition()
+
 
 ## Stream video
 srv = server.create 8080
 video = drone.createPngStream()
-video.on 'error', console.log
+#video.on 'data', (buf) ->
+# srv.emit 'frame', util.bufToUri buf
 
-video.on 'data', (buf) ->
-  srv.emit 'frame', buf.toString 'base64'
+drone.batteryLevel (err, level) ->
+  return console.log err if err?
+  console.log "Battery level - #{level}%"
 
+drone.once 'lowBattery', (level) ->    
+  console.log "LOW BATTERY - #{level}%"
 
-###
-  util.process buf, (err, can, orig) ->
-    return console.log err if err?
-    can.toBuffer (err, buff) ->
-      return console.log err if err?
-      srv.emit 'frame', buff.toString 'base64'
-###
+drone.on 'landing', -> console.log 'landing'
+drone.on 'takeoff', -> console.log 'takeoff'
+drone.on 'flying', -> console.log 'flying'
 
-
-## Augment drone
-droner.augment drone
-
-drone.enableControls()
-  # ffmpeg -i recording.h246 -vcodec copy recording.mp4
-  .record('./recording.h246')
-  .safeguard()
-  .once 'lowBattery', ->
-    console.log 'LOW BATTERY'
+drone.faces.on 'data', (buf) -> 
+  srv.emit 'frame', util.bufToUri buf

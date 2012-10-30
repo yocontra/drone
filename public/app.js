@@ -10,8 +10,8 @@ $(function(){
     var img = new Image();
     img.onload = function(){
       ctx.drawImage(img,0,0);
-    }
-    img.src = 'data:image/png;base64,' + frame;
+    };
+    img.src = frame;
   });
 
 });

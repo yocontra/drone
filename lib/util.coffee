@@ -1,4 +1,4 @@
-cv = require 'opencv'
+face_detect = require 'face-detect'
 http = require 'http'
 async = require 'async'
 fs = require 'fs'
@@ -8,66 +8,45 @@ fs = require 'fs'
 faceloc = join __dirname, "./haarcascade_frontalface_alt.xml"
 
 drawEllipse = (ctx, x, y, w, h) ->
-  kappa = .5522848
-  ox = (w / 2) * kappa # control point offset horizontal
-  oy = (h / 2) * kappa # control point offset vertical
-  xe = x + w # x-end
-  ye = y + h # y-end
-  xm = x + w / 2 # x-middle
-  ym = y + h / 2 # y-middle
-
-  ctx.strokeStyle = 'rgba(255,0,0,1)'
+  cx = x+w/2
+  cy = y+h/2
   ctx.beginPath()
-  ctx.moveTo x, ym
-  ctx.bezierCurveTo x, ym - oy, xm - ox, y, xm, y
-  ctx.bezierCurveTo xm + ox, y, xe, ym - oy, xe, ym
-  ctx.bezierCurveTo xe, ym + oy, xm + ox, ye, xm, ye
-  ctx.bezierCurveTo xm - ox, ye, x, ym + oy, x, ym
-  ctx.closePath()
+  ctx.moveTo cx, cy-h/2
+  ctx.bezierCurveTo cx+w/2, cy-h/2, cx+w/2, cy+h/2, cx, cy+h/2
+  ctx.bezierCurveTo cx-w/2, cy+h/2, cx-w/2, cy-h/2, cx, cy-h/2
+  ctx.strokeStyle = 'rgba(255,0,0,1)'
   ctx.stroke()
+  ctx.closePath()
 
 module.exports = util =
   process: (buf, cb) ->
-    orig = util.bufToCanvas buf
-
-    util.detectFaces buf, (err, faces) ->
-      return console.log err if err?
-      util.drawFaces buf, faces, (can) ->
-        return cb null, can, orig
-
+    thumb = util.bufToCanvas buf, 6
+    faces = face_detect.detect_objects
+      canvas: thumb
+      interval: 1
+      neighbors: 1
+    util.drawFaces buf, faces, cb
     return util
 
-  saveCanvas: (can, path, cb) ->
-    can.toBuffer (err, buf) ->
-      return cb err if err?
-      fs.writeFile path, buf, (err) ->
-        return cb err if err?
-        return cb()
-    return util
-
-  bufToCanvas: (buf) ->
+  bufToCanvas: (buf, scale=1) ->
     img = new Image
+    img.dataMode = Image.MODE_IMAGE
     img.src = buf
-    can = new Canvas img.width, img.height
+    can = new Canvas img.width/scale, img.height/scale
     ctx = can.getContext '2d'
-    ctx.drawImage img, 0, 0, img.width, img.height
+    ctx.drawImage img, 0, 0, img.width/scale, img.height/scale
     return can
+
+  bufToUri: (buf) ->
+    "data:image/png;base64,#{buf.toString('base64')}"
 
   drawFaces: (buf, faces, cb) ->
     can = util.bufToCanvas buf
     ctx = can.getContext '2d'
 
     draw = (f, done) ->
-      drawEllipse ctx, f.x, f.y, f.width, f.height
+      drawEllipse ctx, f.x*6, f.y*6, f.width*6, f.height*6
       done()
 
     async.forEach faces, draw, -> cb can
-    return util
-
-  detectFaces: (buf, cb) ->
-    cv.readImage buf, (err, im) ->
-      return cb err if err?
-      im.detectObject faceloc, {}, (err, faces) ->
-        return cb err if err?
-        return cb null, faces
     return util
