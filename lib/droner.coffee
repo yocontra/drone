@@ -34,7 +34,7 @@ module.exports = droner =
       client._rawVideoStream.pipe fs.createWriteStream loc, flags: 'a'
       return client
 
-    client.enableControls = (speed=1, dur=500) ->
+    client.enableControls = (speed=0.5, dur=250) ->
       flying = false
       controls =
         right: ->
@@ -73,17 +73,17 @@ module.exports = droner =
         "2": -> client.animate "flipLeft", 15
         z: ->
           client.takeoff()
-          client.once 'flying', ->
+          client.once 'hovering', ->
             client.clockwise speed
-            client.up speed
+            #client.up speed
             client.after 3000, ->
               client.clockwise 0
-              client.up 0
-              client.down speed
+              #client.up 0
+              #client.down speed
               client.counterClockwise speed
               client.after 2000, ->
                 client.counterClockwise 0
-                client.down 0
+                #client.down 0
                 client.land()
 
 

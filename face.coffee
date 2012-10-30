@@ -11,14 +11,14 @@ droner.augment(drone)
   .record('./recording.h264') # ffmpeg -i recording.h264 -vcodec copy recording.mp4
   .events()
   .safeguard()
-  .enableFaceRecognition()
+  #.enableFaceRecognition()
 
 
 ## Stream video
 srv = server.create 8080
 video = drone.createPngStream()
-#video.on 'data', (buf) ->
-# srv.emit 'frame', util.bufToUri buf
+video.on 'data', (buf) ->
+ srv.emit 'frame', util.bufToUri buf
 
 drone.batteryLevel (err, level) ->
   return console.log err if err?
@@ -29,7 +29,8 @@ drone.once 'lowBattery', (level) ->
 
 drone.on 'landing', -> console.log 'landing'
 drone.on 'takeoff', -> console.log 'takeoff'
+drone.on 'hovering', -> console.log 'hovering'
 drone.on 'flying', -> console.log 'flying'
 
-drone.faces.on 'data', (buf) -> 
-  srv.emit 'frame', util.bufToUri buf
+#drone.faces.on 'data', (buf) -> 
+#  srv.emit 'frame', util.bufToUri buf
