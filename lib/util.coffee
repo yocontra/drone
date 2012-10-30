@@ -25,7 +25,8 @@ module.exports = util =
       canvas: thumb
       interval: 1
       neighbors: 1
-    util.drawFaces buf, faces, cb
+    util.drawFaces buf, faces, (can) ->
+      cb can, faces
     return util
 
   bufToCanvas: (buf, scale=1) ->
