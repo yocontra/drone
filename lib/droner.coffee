@@ -37,30 +37,38 @@ module.exports = droner =
     client.enableControls = (speed=0.5, dur=250) ->
       flying = false
       controls =
-        right: ->
+        right: ({shift}) ->
           client.counterClockwise speed
-          client.after dur, -> client.counterClockwise 0
-        left: ->
+          unless shift
+            client.after dur, -> client.counterClockwise 0
+        left: ({shift}) ->
           client.clockwise speed
-          client.after dur, -> client.clockwise 0
-        up: ->
+          unless shift
+            client.after dur, -> client.clockwise 0
+        up: ({shift}) ->
           client.up speed
-          client.after dur, -> client.up 0
-        down: ->
+          unless shift
+            client.after dur, -> client.up 0
+        down: ({shift}) ->
           client.down speed
-          client.after dur, -> client.down 0
-        w: ->
+          unless shift
+            client.after dur, -> client.down 0
+        w: ({shift}) ->
           client.front speed
-          client.after dur, -> client.front 0
-        a: ->
+          unless shift
+            client.after dur, -> client.front 0
+        a: ({shift}) ->
           client.left speed
-          client.after dur, -> client.left 0
-        s: ->
+          unless shift
+            client.after dur, -> client.left 0
+        s: ({shift}) ->
           client.back speed
-          client.after dur, -> client.back 0
-        d: ->
+          unless shift
+            client.after dur, -> client.back 0
+        d: ({shift}) ->
           client.right speed
-          client.after dur, -> client.right 0
+          unless shift
+            client.after dur, -> client.right 0
         space: ->
           if flying
             client.land()
@@ -92,6 +100,7 @@ module.exports = droner =
       process.stdin.on 'keypress', (_, k) ->
         return unless k
         return process.exit() if k.ctrl and k.name is 'c'
+        console.log k
         controls[k.name]? k
 
       process.stdin.setRawMode true
