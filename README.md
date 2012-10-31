@@ -61,11 +61,12 @@ You can view the camera from localhost:8080
 
 ## Installing node on the drone
 
-Requires that vagrant and virtualbox be installed (thanks felixge for doing the hard parts on this)
+(thanks felixge for doing the hard parts on this)
 
-Run
+Run this command while connected to the drone's network
 
 ```
-npm run-script build
-npm run-script install
+npm run-script deploy
 ```
+
+Now you can telnet into the drone and type ```node``` to run the repl
