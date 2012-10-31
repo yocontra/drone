@@ -9,6 +9,12 @@
     "pulsar":"*",
     "camera":"*",
     "buffy":"*",
-    "keypress":"*"
+    "keypress":"*",
+    "opencv":"*"
+  },
+
+  "scripts":{
+    "compile":"sh ./onboard/build.sh",
+    "deploy":"sh ./onboard/install.sh"
   }
 }
