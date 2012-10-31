@@ -6,3 +6,5 @@ vagrant up
 vagrant ssh -c "cd cross-compiler && ./setup-vm.sh && make ardrone2"
 mkdir -p ../build
 cp -R ./build/* ../build
+
+# npm bin file needs edit for path
