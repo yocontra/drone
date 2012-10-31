@@ -69,4 +69,15 @@ Run this command while connected to the drone's network
 npm run-script deploy
 ```
 
+### REPL
+
+Do you want your drone to control itself? Install ar-drone on it with
+
+```
+npm run-script setup
+```
+
+Now you can go into ```/data/video/labs``` where you have ar-drone and a repl.js to launch a repl. Run ```node repl.js``` and you're on your way. You can write any ar-drone scripts and run them from the drone itself now.
+
+
 Now you can telnet into the drone and type ```node``` to run the repl
