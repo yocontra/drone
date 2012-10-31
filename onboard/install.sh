@@ -1,3 +1,5 @@
+# copy built node to drone over ftp
+# telnet in and set shit up
 cd ./onboard
 ftp -u ftp://anonymous:anonymous@192.168.1.1/node.tar.gz ./node.tar.gz
 

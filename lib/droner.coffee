@@ -100,7 +100,6 @@ module.exports = droner =
       process.stdin.on 'keypress', (_, k) ->
         return unless k
         return process.exit() if k.ctrl and k.name is 'c'
-        console.log k
         controls[k.name]? k
 
       process.stdin.setRawMode true

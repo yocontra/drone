@@ -1,4 +1,5 @@
 # this script requires vagrant
+# build node for arm7l on vm
 cd ./onboard
 git clone git://github.com/felixge/node-cross-compiler.git
 cd ./node-cross-compiler

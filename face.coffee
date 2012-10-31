@@ -2,6 +2,8 @@ arDrone = require 'ar-drone'
 server = require './lib/server'
 droner = require './lib/droner'
 util = require './lib/util'
+faces = require './lib/faces'
+
 
 drone = arDrone.createClient()
 
@@ -18,11 +20,14 @@ droner.augment(drone)
 srv = server.create 8080
 video = drone.createPngStream()
 video.on 'data', (buf) ->
-  util.process buf, (err, can, faces) ->
+  srv.emit 'frame', util.bufToUri buf
+  ###
+  faces.process buf, (err, can, faces) ->
     return console.log err if err?
     can.toDataURL (err, uri) ->
       return console.log err if err?
       srv.emit 'frame', can.uri
+  ###
 
 drone.batteryLevel (err, level) ->
   return console.log err if err?
