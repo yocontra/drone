@@ -14,7 +14,7 @@
   },
 
   "scripts":{
-    "compile":"sh ./onboard/build.sh",
+    "build":"sh ./onboard/build.sh",
     "deploy":"sh ./onboard/install.sh"
   }
 }
