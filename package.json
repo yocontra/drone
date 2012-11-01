@@ -11,8 +11,8 @@
     "buffy":"*",
     "keypress":"*",
     "opencv":"*",
-    "png-sync":"git://github.com/DJing/node-png-sync#patch-2",
-    "kinect":"git://github.com/tmpvar/node-kinectstream"
+    "png-sync":"git://github.com/Contra/node-png.git",
+    "kinect":"git://github.com/Contra/node-kinectstream.git"
   },
 
   "scripts":{
