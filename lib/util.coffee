@@ -18,5 +18,5 @@ module.exports = util =
     ctx.drawImage img, 0, 0, img.width, img.height
     return can
 
-  bufToUri: (buf) ->
-    "data:image/png;base64,#{buf.toString('base64')}"
+  bufToUri: (buf, fmt='png') ->
+    "data:image/#{fmt};base64,#{buf.toString('base64')}"

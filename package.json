@@ -10,7 +10,9 @@
     "camera":"*",
     "buffy":"*",
     "keypress":"*",
-    "opencv":"*"
+    "opencv":"*",
+    "png-sync":"git://github.com/DJing/node-png-sync#patch-2",
+    "kinect":"git://github.com/tmpvar/node-kinectstream"
   },
 
   "scripts":{
