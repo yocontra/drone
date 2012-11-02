@@ -1,17 +1,21 @@
 kinect = require 'kinect'
 server = require './lib/server'
 util = require './lib/util'
+
 {Png} = require 'png'
 
 srv = server.create 8080
 
-cam = kinect.createStream 'video', '640x480', 60
+cam = kinect.createStream 'video', '640x480', 30
 
-cam.on 'data', (buf) ->
-  png = new Png buf, 640, 480, 'rgb'
-  png.encode (nbuf) ->
-    uri = util.bufToUri nbuf
+process = (buf) ->
+  can = util.rgbToCanvas 640, 480, buf
+  can.toDataURL (err, uri) ->
+    return console.log err if err?
+    console.log uri
     srv.emit 'frame', uri
+
+cam.on 'data', process
 
 last = true
 tilt = ->
@@ -23,3 +27,8 @@ tilt = ->
   setTimeout tilt, 5000
 
 tilt()
+
+kinect.led "green"
+#depth = kinect.createStream 'depth'
+
+#depth.on 'data', process

@@ -9,6 +9,13 @@ module.exports = util =
     y: coordinate.y + (coordinate.height / 2)
     xDist: Math.abs(centerX - matchCenterX)
 
+  rgbToCanvas: (w, h, buf) ->
+    can = new Canvas w, h
+    ctx = can.getContext '2d'
+    d = ctx.createImageData buf
+    ctx.putImageData d, 0, 0
+    return can
+
   bufToCanvas: (buf) ->
     img = new Image
     img.dataMode = Image.MODE_IMAGE
