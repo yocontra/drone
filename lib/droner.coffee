@@ -3,6 +3,7 @@ PaVEParser = require './PaVEParser'
 keypress = require 'keypress'
 {EventEmitter} = require 'events'
 util = require './util'
+faces = require './faces'
 
 module.exports = droner =
   augment: (client) ->
@@ -13,6 +14,8 @@ module.exports = droner =
     client.faces = new EventEmitter
 
     client.config 'general:navdata_demo', 'TRUE'
+
+    client.battery = -> client._lastBattery
 
     client.safeguard = ->
       client.disableEmergency()
@@ -117,14 +120,14 @@ module.exports = droner =
 
 
     drawFaces = (buf) ->
-      util.process buf, (can, orig) ->
-        can.toBuffer (e, buff) ->
-          client.faces.emit 'data', buff
+      faces.process buf, (err, buff, faces) ->
+        return console.log err if err?
+        client.faces.emit 'data', buff
 
     client.enableFaceRecognition = -> 
-      client._pngStream.on 'data', drawFaces
+      client.createPngStream().on 'data', drawFaces
 
     client.disableFaceRecognition = -> 
-      client._pngStream.removeListener 'data', drawFaces
+      client.createPngStream().removeListener 'data', drawFaces
 
     return client
