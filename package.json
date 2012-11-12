@@ -10,8 +10,7 @@
     "camera":"*",
     "buffy":"*",
     "keypress":"*",
-    "opencv":"*",
-    "png-sync":"git://github.com/Contra/node-png.git",
+    "opencv":"git://github.com/peterbraden/node-opencv.git",
     "kinect":"git://github.com/Contra/node-kinectstream.git"
   },
 

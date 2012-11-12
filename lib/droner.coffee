@@ -13,18 +13,6 @@ module.exports = droner =
     client.faces = new EventEmitter
 
     client.config 'general:navdata_demo', 'TRUE'
-    client.lastAltitude = 0
-    client.lastState = 'CTRL_LANDED'
-    client.lastBattery = 100
-
-    client.batteryLevel = (cb) ->
-      client.once 'navdata', ({demo}) ->
-        return client.batteryLevel cb unless demo
-        cb null, demo.batteryPercentage
-
-    client.events = ->
-
-      return client
 
     client.safeguard = ->
       client.disableEmergency()

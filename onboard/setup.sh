@@ -1,4 +1,4 @@
-# copy deps into build foldr
+# copy deps into build folder
 # tar them in the vm
 # copy to drone
 

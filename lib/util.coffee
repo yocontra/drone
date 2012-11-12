@@ -1,5 +1,10 @@
 {Image} = Canvas = require 'canvas'
 
+chunk = (arr, len) ->
+  i = 0
+  n = arr.length
+  return (arr.slice(i, i += len) while i < n)
+
 module.exports = util =
   findCenter: (coordinate) ->
     centerX = 320
@@ -12,7 +17,19 @@ module.exports = util =
   rgbToCanvas: (w, h, buf) ->
     can = new Canvas w, h
     ctx = can.getContext '2d'
-    d = ctx.createImageData buf
+
+    d = ctx.createImageData w, h
+    chunks = chunk buf, 3
+    n = chunks.length
+    i = 0
+    while i < n
+      d.data[i*4+0] = chunks[i][0] # r
+      d.data[i*4+1] = chunks[i][1] # g
+      d.data[i*4+2] = chunks[i][2] # b
+      d.data[i*4+3] = 1 # a
+
+      ++i
+
     ctx.putImageData d, 0, 0
     return can
 

@@ -12,7 +12,6 @@ process = (buf) ->
   can = util.rgbToCanvas 640, 480, buf
   can.toDataURL (err, uri) ->
     return console.log err if err?
-    console.log uri
     srv.emit 'frame', uri
 
 cam.on 'data', process
