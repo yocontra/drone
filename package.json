@@ -11,7 +11,8 @@
     "buffy":"*",
     "keypress":"*",
     "opencv":"git://github.com/peterbraden/node-opencv.git",
-    "kinect":"git://github.com/Contra/node-kinectstream.git"
+    "kinect":"git://github.com/Contra/node-kinectstream.git",
+    "faces":"*"
   },
 
   "scripts":{

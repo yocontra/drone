@@ -1,8 +1,7 @@
 arDrone = require 'ar-drone'
 server = require './lib/server'
 droner = require './lib/droner'
-util = require './lib/util'
-faces = require './lib/faces'
+faces = require 'faces'
 
 
 drone = arDrone.createClient()
@@ -12,12 +11,11 @@ droner.augment(drone)
   .enableControls()
   #.record('./recording.h264') # ffmpeg -i recording.h264 -vcodec copy recording.mp4
   .safeguard()
-  .enableFaceRecognition()
 
 
 ## Stream video
 srv = server.create 8080
-#video = drone.createPngStream()
+video = drone.createPngStream()
 #video.on 'data', (buf) ->
 #  srv.emit 'frame', util.bufToUri buf
 
@@ -32,5 +30,11 @@ drone.on 'takeoff', -> console.log 'takeoff'
 drone.on 'hovering', -> console.log 'hovering'
 drone.on 'flying', -> console.log 'flying'
 
-drone.faces.on 'data', (buf) -> 
-  srv.emit 'frame', util.bufToUri buf, 'jpeg'
+faceStream = faces.createStream
+  draw:
+    type: 'ellipse'
+
+
+video.pipe faceStream
+faceStream.on 'data', (buf) -> 
+  srv.emit 'frame', faces.toImageUrl buf, 'jpeg'

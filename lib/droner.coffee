@@ -1,17 +1,11 @@
 fs = require 'fs'
 PaVEParser = require './PaVEParser'
 keypress = require 'keypress'
-{EventEmitter} = require 'events'
-util = require './util'
-faces = require './faces'
 
 module.exports = droner =
   augment: (client) ->
-    client.createPngStream() unless client._pngStream._tcpVideoStream
-    client._tcpVideoStream = client._pngStream._tcpVideoStream
+    client._tcpVideoStream = client.createPngStream()._tcpVideoStream
     client._rawVideoStream = client._tcpVideoStream.pipe new PaVEParser
-
-    client.faces = new EventEmitter
 
     client.config 'general:navdata_demo', 'TRUE'
 
@@ -117,17 +111,5 @@ module.exports = droner =
       """
 
       return client
-
-
-    drawFaces = (buf) ->
-      faces.process buf, (err, buff, faces) ->
-        return console.log err if err?
-        client.faces.emit 'data', buff
-
-    client.enableFaceRecognition = -> 
-      client.createPngStream().on 'data', drawFaces
-
-    client.disableFaceRecognition = -> 
-      client.createPngStream().removeListener 'data', drawFaces
 
     return client

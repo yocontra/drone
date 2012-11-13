@@ -1,0 +1,1 @@
+/Users/contra/Projects/drone/kinect/CMakeFiles/openni_grabber.dir

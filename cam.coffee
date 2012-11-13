@@ -1,11 +1,14 @@
 cam = require('camera').createStream 1
 server = require './lib/server'
-util = require './lib/util'
-faces = require './lib/faces'
+faces = require 'faces'
 
 srv = server.create 8080
 
-cam.on 'data', (buf) ->
-  faces.process buf, (err, buff, faces) ->
-    return console.log err if err?
-    srv.emit 'frame', util.bufToUri buff, 'jpeg'
+faceStream = faces.createStream
+  draw:
+    type: 'ellipse'
+
+faceStream.on 'data', (buf) ->
+  srv.emit 'frame', faces.toImageUrl buf, 'jpeg'
+
+cam.pipe faceStream
