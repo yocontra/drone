@@ -2,3 +2,9 @@ node_modules
 recording.h264
 recording.mp4
 node-cross-compiler
+openni_grabber
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
