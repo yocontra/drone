@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Drone by Contra</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Drone</h1>
+        <p class="header">Code for messing with an AR drone</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/Contra/drone/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/Contra/drone/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/Contra/drone">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/Contra">Contra</a></p>
+
+
+      </header>
+      <section>
+        <p>This is a collection of utilities related to the AR drone</p>
+
+<h2>Augmentation</h2>
+
+<p>drone augmentation can be found in lib/droner.coffee</p>
+
+<h4>events</h4>
+
+<p>Adds landed, landing, hovering, flying, batteryChange, and altitudeChange events to the drone. Being pulled into ar-drone core so will be removed</p>
+
+<h4>batteryLevel(cb)</h4>
+
+<p>returns battery level to callback</p>
+
+<h4>safeguard</h4>
+
+<p>disables emergency mode on start and adds error handles to prevent your app from crashing and having your drone fly off into space</p>
+
+<h4>record(loc)</h4>
+
+<p>Records raw video data to location (HD with higher framerate)</p>
+
+<p>You'll need to run <code>ffmpeg -i recording.h264 -vcodec copy recording.mp4</code> to convert it into an mp4. record will append video to your existing one so you can keep a log of your drone's entire history easily</p>
+
+<h4>enableControls(speed=0.5)</h4>
+
+<p>Adds controls via stdin to the drone - look below for these</p>
+
+<h4>enableFacialRecognition</h4>
+
+<p>Adds a processing step to PNG frames for running facial recognition. drone.faces will emit a data event with a PNG buffer that has circles drawn around faces</p>
+
+<h2>Controller</h2>
+
+<p>Depends on opencv for facial recognition</p>
+
+<p>Run <code>coffee face.coffee</code> to control the drone from the command line with WASD</p>
+
+<p>Controls:</p>
+
+<pre><code>w - forward
+a - left
+s - backward
+d - right
+
+arrow up - up
+arrow left - spin left
+arrow down - down
+arrow right - spin right
+
+&lt;space&gt; - land/takeoff
+x - hover
+r - disable emergency mode
+1/2 - flipAhead/flipLeft
+</code></pre>
+
+<p>You can view the camera from localhost:8080</p>
+
+<h2>Installing node on the drone</h2>
+
+<p>(thanks felixge for doing the hard parts on this)</p>
+
+<p>Run this command while connected to the drone's network</p>
+
+<pre><code>npm run-script deploy
+</code></pre>
+
+<h3>REPL</h3>
+
+<p>Do you want your drone to control itself? Install ar-drone on it with</p>
+
+<pre><code>npm run-script setup
+</code></pre>
+
+<p>Now you can go into <code>/data/video/labs</code> where you have ar-drone and a repl.js to launch a repl. Run <code>node repl.js</code> and you're on your way. You can write any ar-drone scripts and run them from the drone itself now.</p>
+
+<p>Now you can telnet into the drone and type <code>node</code> to run the repl</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
