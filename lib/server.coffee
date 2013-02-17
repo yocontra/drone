@@ -9,7 +9,7 @@ module.exports =
     app.use express.static join __dirname, "../public"
 
     srv = http.createServer app
-    pulse = Pulsar.createServer server: srv
+    pulse = Pulsar.createServer srv
     chan = pulse.channel 'main'
     srv.listen port
 
