@@ -1,4 +1,4 @@
-cam = require('camera').createStream 1
+cam = require('camera').createStream()
 server = require './lib/server'
 faces = require 'faces'
 
